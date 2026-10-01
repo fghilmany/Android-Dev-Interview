@@ -18,7 +18,9 @@ data class UiState(
     val cart: Map<String, Int> = emptyMap(),
     val error: String? = null,
     val isSubmitting: Boolean = false,
-)
+){
+    val itemCount: Int get() = cart.values.sum()
+}
 
 class MenuViewModel(private val repository: MenuRepository) : ViewModel() {
     private val _state = MutableStateFlow(UiState())
@@ -48,10 +50,14 @@ class MenuViewModel(private val repository: MenuRepository) : ViewModel() {
     }
 
     fun minus(id: Int) {
+        val key = id.toString()
         _state.update {
-            it.copy(
-                cart = it.cart + (id.toString() to (it.cart[id.toString()] ?: 0) - 1)
-            )
+            val current = it.cart[key] ?: 0
+            when {
+                current <= 0 -> it
+                current == 1 -> it.copy(cart = it.cart - key)
+                else -> it.copy(cart = it.cart + (key to current - 1))
+            }
         }
     }
 

@@ -103,7 +103,7 @@ fun MenuScreen(
                     badge = {
                         if (state.cart.isNotEmpty()) {
                             Badge {
-                                Text("${state.cart.size}")
+                                Text("${state.itemCount}")
                             }
                         }
                     },
@@ -111,7 +111,7 @@ fun MenuScreen(
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.baseline_add_shopping_cart_24),   // sesuaikan nama file
-                        contentDescription = "Cart, ${state.cart.size} items",
+                        contentDescription = "Cart, ${state.itemCount} items",
                     )
                 }
                 Button(
